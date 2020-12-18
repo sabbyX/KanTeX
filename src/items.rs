@@ -22,21 +22,21 @@ impl Stringify for MentionLink {
 }
 
 pub struct KeyValueItem {
-    key: String,
-    value: String,
+    key: Box<dyn Stringify + 'static>,
+    value: Box<dyn Stringify + 'static>,
 }
 
 impl KeyValueItem {
-    pub fn new(key: &str, value: &str) -> Self {
+    pub fn new<T: Stringify + 'static>(key: T, value: T) -> Self {
         Self {
-            key: FormattedText::bold(key),
-            value: value.to_owned(),
+            key: Box::new(key),
+            value: Box::new(value),
         }
     }
 }
 
 impl Stringify for KeyValueItem {
     fn stringify(&self) -> String {
-        format!("{}{} {}", self.key, KEY_VALUE_DELIM, self.value).to_string()
+        format!("{}{} {}", self.key.stringify(), KEY_VALUE_DELIM, self.value.stringify()).to_string()
     }
 }
