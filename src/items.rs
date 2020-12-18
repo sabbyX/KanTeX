@@ -27,7 +27,7 @@ pub struct KeyValueItem {
 }
 
 impl KeyValueItem {
-    pub fn new<T: Stringify + 'static>(key: T, value: T) -> Self {
+    pub fn new<T: Stringify + 'static, S: Stringify + 'static>(key: T, value: S) -> Self {
         Self {
             key: Box::new(key),
             value: Box::new(value),
